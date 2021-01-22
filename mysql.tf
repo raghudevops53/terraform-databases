@@ -61,3 +61,13 @@ resource "aws_security_group" "allow-mysql" {
     Name                  = "allow-mysql-${var.ENV}"
   }
 }
+
+resource "null_resource" "mysql-schema" {
+  provisioner "local-exec" {
+    command = <<EOF
+git clone https://DevOps-Batches@dev.azure.com/DevOps-Batches/DevOps53/_git/rs-mysql
+cd rs-mysql
+mysql -h ${aws_rds_cluster.mysql.endpoint} -u${jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["MYSQL_USER"]} -p${jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["MYSQL_PASS"]} <shipping.sql
+EOF
+  }
+}
