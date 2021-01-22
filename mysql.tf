@@ -40,6 +40,7 @@ resource "aws_rds_cluster_instance" "cluster_instances" {
 resource "aws_security_group" "allow-mysql" {
   name                    = "allow-mysql-${var.ENV}"
   description             = "allow-mysql-${var.ENV}"
+  vpc_id                  = data.terraform_remote_state.vpc.outputs.VPC_ID
 
   ingress {
     description           = "SSH"
