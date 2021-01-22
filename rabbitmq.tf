@@ -42,10 +42,10 @@ resource "aws_security_group" "allow-rabbitmq" {
   }
 }
 
-resource "null_resource" "rabbitmq-schema" {
+resource "null_resource" "rabbitmq-apply" {
   provisioner "remote-exec" {
     connection {
-      host                = aws_instance.mongo.private_ip
+      host                = aws_instance.rabbitmq.private_ip
       user                = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["SSH_USER"]
       password            = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["SSH_PASS"]
     }
