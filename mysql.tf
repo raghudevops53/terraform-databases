@@ -27,3 +27,11 @@ resource "aws_rds_cluster" "mysql" {
   db_cluster_parameter_group_name     = aws_rds_cluster_parameter_group.mysql.name
 }
 
+resource "aws_rds_cluster_instance" "cluster_instances" {
+  count              = 1
+  identifier         = "mysql-${var.ENV}-${count.index}"
+  cluster_identifier = aws_rds_cluster.mysql.id
+  instance_class     = "db.t3.small"
+  engine             = aws_rds_cluster.mysql.engine
+  engine_version     = aws_rds_cluster.mysql.engine_version
+}
