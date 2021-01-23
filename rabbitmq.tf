@@ -55,3 +55,11 @@ resource "null_resource" "rabbitmq-apply" {
     ]
   }
 }
+
+resource "aws_route53_record" "rabbitmq" {
+  name        = "rabbitmq-${var.ENV}"
+  type        = "A"
+  zone_id     = data.terraform_remote_state.vpc.outputs.ZONE_ID
+  ttl         = "1000"
+  records     = [aws_instance.rabbitmq.private_ip]
+}
