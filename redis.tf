@@ -44,6 +44,10 @@ resource "aws_elasticache_cluster" "redis" {
   subnet_group_name         = aws_elasticache_subnet_group.redis.name
 }
 
+output "redis" {
+  value = aws_elasticache_cluster.redis.cluster_address
+}
+
 //resource "aws_route53_record" "redis" {
 //  name        = "redis-${var.ENV}"
 //  type        = "CNAME"
